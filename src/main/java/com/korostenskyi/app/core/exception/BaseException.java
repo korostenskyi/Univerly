@@ -1,4 +1,4 @@
-package com.korostenskyi.app.exception;
+package com.korostenskyi.app.core.exception;
 
 public class BaseException extends RuntimeException {
 

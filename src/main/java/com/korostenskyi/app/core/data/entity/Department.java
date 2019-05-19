@@ -1,4 +1,4 @@
-package com.korostenskyi.app.data.entity;
+package com.korostenskyi.app.core.data.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

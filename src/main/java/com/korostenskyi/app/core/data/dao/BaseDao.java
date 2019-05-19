@@ -1,4 +1,4 @@
-package com.korostenskyi.app.data.dao;
+package com.korostenskyi.app.core.data.dao;
 
 import java.util.List;
 import java.util.Optional;

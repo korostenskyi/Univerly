@@ -1,4 +1,4 @@
-package com.korostenskyi.app.data.entity;
+package com.korostenskyi.app.core.data.entity;
 
 public enum Degree {
     PROFESSOR,

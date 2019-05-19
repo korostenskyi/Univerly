@@ -1,8 +1,8 @@
 package com.korostenskyi.app.config;
 
-import com.korostenskyi.app.data.entity.Contract;
-import com.korostenskyi.app.data.entity.Department;
-import com.korostenskyi.app.data.entity.Lector;
+import com.korostenskyi.app.core.data.entity.Contract;
+import com.korostenskyi.app.core.data.entity.Department;
+import com.korostenskyi.app.core.data.entity.Lector;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

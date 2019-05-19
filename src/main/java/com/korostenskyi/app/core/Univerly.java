@@ -1,6 +1,6 @@
-package com.korostenskyi.app;
+package com.korostenskyi.app.core;
 
-import com.korostenskyi.app.command.CommandHandler;
+import com.korostenskyi.app.core.service.command.CommandHandler;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public final class Univerly {

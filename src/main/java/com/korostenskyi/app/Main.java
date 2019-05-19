@@ -1,5 +1,6 @@
 package com.korostenskyi.app;
 
+import com.korostenskyi.app.core.Univerly;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {

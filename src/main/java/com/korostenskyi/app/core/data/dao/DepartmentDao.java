@@ -1,9 +1,14 @@
-package com.korostenskyi.app.data.dao;
+package com.korostenskyi.app.core.data.dao;
 
 import com.korostenskyi.app.config.FactoryUtil;
-import com.korostenskyi.app.data.entity.Department;
+import com.korostenskyi.app.core.data.entity.Department;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,5 +62,15 @@ public class DepartmentDao implements BaseDao<Department> {
         List<Department> departmentList = getAll();
 
         departmentList.forEach(this::delete);
+    }
+
+    public String getHeadOfDepartmentByDepartmentName(String name) {
+
+        Query<Department> query = getSession().createNativeQuery("select * from Department where department_name = :departmentName", Department.class);
+        query.setParameter("departmentName", name);
+
+        List<Department> departmentList = query.list();
+
+        return departmentList.get(0).getHead();
     }
 }

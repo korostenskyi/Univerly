@@ -1,7 +1,7 @@
-package com.korostenskyi.app.data.dao;
+package com.korostenskyi.app.core.data.dao;
 
 import com.korostenskyi.app.config.FactoryUtil;
-import com.korostenskyi.app.data.entity.Contract;
+import com.korostenskyi.app.core.data.entity.Contract;
 import org.hibernate.Session;
 
 import java.util.List;
