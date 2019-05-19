@@ -5,8 +5,10 @@ import com.korostenskyi.app.core.data.dao.DepartmentDao;
 import com.korostenskyi.app.core.data.dao.LectorDao;
 import com.korostenskyi.app.core.data.entity.Contract;
 import com.korostenskyi.app.core.data.entity.Degree;
+import com.korostenskyi.app.core.data.entity.Lector;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public String handleCommand(String command) {
 
-        System.out.println(getAverageSalaryForDepartmentByName("Computer Science"));
+        getLectorsByNameTemplate("Al").forEach(System.out::println);
 
         return command;
     }
@@ -106,5 +108,14 @@ public class CommandHandlerImpl implements CommandHandler {
         int totalSalary = contracts.stream().mapToInt(Contract::getSalary).sum();
 
         return totalSalary / contracts.size();
+    }
+
+    private List<String> getLectorsByNameTemplate(String template) {
+
+        List<String> names = new ArrayList<>();
+
+        lectorDao.getLectorsByNameTemplate(template).forEach(lector -> names.add(lector.getName()));
+
+        return names;
     }
 }

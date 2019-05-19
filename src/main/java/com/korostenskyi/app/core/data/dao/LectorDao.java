@@ -67,4 +67,11 @@ public class LectorDao implements BaseDao<Lector> {
 
         return query.getSingleResult();
     }
+
+    public List<Lector> getLectorsByNameTemplate(String template) {
+        Query<Lector> query = getSession().createNativeQuery("select * from Lector where lector_name like :nameTemplate", Lector.class);
+        query.setParameter("nameTemplate", "%" + template + "%");
+
+        return query.list();
+    }
 }
