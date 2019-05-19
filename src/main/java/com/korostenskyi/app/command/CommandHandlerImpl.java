@@ -1,19 +1,23 @@
 package com.korostenskyi.app.command;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import com.korostenskyi.app.data.dao.ContractDao;
+import com.korostenskyi.app.data.dao.LectorDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommandHandlerImpl implements CommandHandler {
 
     private String command;
-
-    private Scanner scanner = new Scanner(System.in);
+    private ContractDao contractDao;
 
     @Override
     public String handleCommand(String command) {
 
-        List<String> wordList = Arrays.asList(command.split(" "));
+        // List<String> wordList = Arrays.asList(command.split(" "));
+
+        contractDao = new ContractDao();
+
+        contractDao.getAll().forEach(contract -> System.out.println(contract.getDepartmentId()));
 
         return command;
     }

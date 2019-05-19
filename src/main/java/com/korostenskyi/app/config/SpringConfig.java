@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.korostenskyi.app")
 public class SpringConfig {
 
-    @Bean
+    @Bean(name = "CommandHandler")
     public CommandHandler commandHandler() {
         return new CommandHandlerImpl();
     }
