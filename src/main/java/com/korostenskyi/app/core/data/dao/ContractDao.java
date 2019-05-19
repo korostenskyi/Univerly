@@ -3,6 +3,7 @@ package com.korostenskyi.app.core.data.dao;
 import com.korostenskyi.app.config.FactoryUtil;
 import com.korostenskyi.app.core.data.entity.Contract;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,5 +58,13 @@ public class ContractDao implements BaseDao<Contract> {
         List<Contract> departmentList = getAll();
 
         departmentList.forEach(this::delete);
+    }
+
+    public List<Contract> getContractsByDepartmentId(long id) {
+
+        Query<Contract> query = getSession().createNativeQuery("select * from Contract where id_department = :departmentId", Contract.class);
+        query.setParameter("departmentId", id);
+
+        return query.list();
     }
 }

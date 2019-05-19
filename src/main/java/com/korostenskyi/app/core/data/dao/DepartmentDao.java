@@ -64,13 +64,12 @@ public class DepartmentDao implements BaseDao<Department> {
         departmentList.forEach(this::delete);
     }
 
-    public String getHeadOfDepartmentByDepartmentName(String name) {
-
+    public Department getDepartmentByName(String name) {
         Query<Department> query = getSession().createNativeQuery("select * from Department where department_name = :departmentName", Department.class);
         query.setParameter("departmentName", name);
 
         List<Department> departmentList = query.list();
 
-        return departmentList.get(0).getHead();
+        return departmentList.get(0);
     }
 }

@@ -1,8 +1,10 @@
 package com.korostenskyi.app.core.data.dao;
 
 import com.korostenskyi.app.config.FactoryUtil;
+import com.korostenskyi.app.core.data.entity.Contract;
 import com.korostenskyi.app.core.data.entity.Lector;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,5 +59,12 @@ public class LectorDao implements BaseDao<Lector> {
         List<Lector> departmentList = getAll();
 
         departmentList.forEach(this::delete);
+    }
+
+    public Lector getLectorById(long id) {
+        Query<Lector> query = getSession().createNativeQuery("select * from Lector where id_lector = :lectorId", Lector.class);
+        query.setParameter("lectorId", id);
+
+        return query.getSingleResult();
     }
 }
