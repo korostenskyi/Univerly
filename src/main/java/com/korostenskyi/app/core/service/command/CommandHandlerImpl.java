@@ -5,7 +5,6 @@ import com.korostenskyi.app.core.data.dao.DepartmentDao;
 import com.korostenskyi.app.core.data.dao.LectorDao;
 import com.korostenskyi.app.core.data.entity.Contract;
 import com.korostenskyi.app.core.data.entity.Degree;
-import com.korostenskyi.app.core.data.entity.Lector;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,9 +29,6 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public String handleCommand(String command) {
-
-        getLectorsByNameTemplate("Al").forEach(System.out::println);
-
         return command;
     }
 
@@ -47,6 +43,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     /**
+     * Returns the list with the amount of professors, assosiate professors, assistants by given departmentName.
      *
      * @param departmentName The name of the department
      * @return List of Integers where first element is amount of professors, second - assosiate professors, third - assistants
@@ -83,6 +80,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     /**
+     * Returns the amount of employees in given department.
      *
      * @param departmentName The name of the department
      * @return Amount of employees
@@ -96,6 +94,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     /**
+     * Returns the average salary of employees in given department.
      *
      * @param departmentName The name of the department
      * @return Average salary of employees
@@ -110,6 +109,12 @@ public class CommandHandlerImpl implements CommandHandler {
         return totalSalary / contracts.size();
     }
 
+    /**
+     * Returns the list of names that contain the given string-part
+     *
+     * @param template The part of name
+     * @return List of names
+     */
     private List<String> getLectorsByNameTemplate(String template) {
 
         List<String> names = new ArrayList<>();
