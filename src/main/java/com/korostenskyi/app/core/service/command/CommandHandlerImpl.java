@@ -29,7 +29,7 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public String handleCommand(String command) {
 
-        getDepartmentStatsByName("Computer Science").forEach(System.out::println);
+        System.out.println(getEmployeeCountByDepartmentName("Computer Science"));
 
         return command;
     }
@@ -78,5 +78,18 @@ public class CommandHandlerImpl implements CommandHandler {
         }
 
         return Arrays.asList(professorCount, assosiateProfessorCount, assistantCount);
+    }
+
+    /**
+     *
+     * @param departmentName The name of the department
+     * @return Amount of employees
+     */
+    private int getEmployeeCountByDepartmentName(String departmentName) {
+
+        long departmentId = departmentDao.getDepartmentByName(departmentName).getId();
+        List<Contract> contracts = contractDao.getContractsByDepartmentId(departmentId);
+
+        return contracts.size();
     }
 }
