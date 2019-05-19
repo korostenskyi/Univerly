@@ -1,7 +1,7 @@
 package com.korostenskyi.app.config;
 
-import com.korostenskyi.app.core.service.command.CommandHandler;
-import com.korostenskyi.app.core.service.command.CommandHandlerImpl;
+import com.korostenskyi.app.core.command.CommandHandler;
+import com.korostenskyi.app.core.command.CommandHandlerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

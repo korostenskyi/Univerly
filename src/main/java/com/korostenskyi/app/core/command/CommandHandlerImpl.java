@@ -1,4 +1,4 @@
-package com.korostenskyi.app.core.service.command;
+package com.korostenskyi.app.core.command;
 
 import com.korostenskyi.app.core.data.dao.ContractDao;
 import com.korostenskyi.app.core.data.dao.DepartmentDao;
