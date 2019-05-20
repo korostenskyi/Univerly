@@ -1,6 +1,6 @@
 package com.korostenskyi.app.core;
 
-import com.korostenskyi.app.core.command.CommandHandler;
+import com.korostenskyi.app.core.command.handler.CommandHandler;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package com.korostenskyi.app.core.command;
+package com.korostenskyi.app.core.repository;
 
 import com.korostenskyi.app.core.data.dao.ContractDao;
 import com.korostenskyi.app.core.data.dao.DepartmentDao;
@@ -11,95 +11,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class CommandHandlerImpl implements CommandHandler {
+public class DataRepositoryImpl implements DataRepository {
 
-    private ContractDao contractDao;
     private DepartmentDao departmentDao;
     private LectorDao lectorDao;
+    private ContractDao contractDao;
 
-    public CommandHandlerImpl() {
+    public DataRepositoryImpl() {
 
-        contractDao = new ContractDao();
         departmentDao = new DepartmentDao();
         lectorDao = new LectorDao();
-    }
-
-    @Override
-    public String handleCommand(String command) {
-
-        String[] splitedCommand = command.split(" ");
-        String commandName = splitedCommand[0];
-
-        switch (commandName) {
-
-            case "help":
-                // TODO: Complete the 'help' command description
-                return "Read the docs!";
-
-            case "Global": {
-                if (splitedCommand.length > 1) {
-                    if (splitedCommand[1].equals("search") && splitedCommand[2].equals("by")) {
-                        return "[" + getLectorsByNameTemplate(splitedCommand[3]).stream().map(Object::toString)
-                                .collect(Collectors.joining(", ")) + "]";
-                    } else {
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            case "Show": {
-                if (splitedCommand.length > 1) {
-                    return handleShowCommand(command, splitedCommand);
-                } else {
-                    break;
-                }
-            }
-
-            default:
-                break;
-        }
-
-        return "Unknown command!, please type 'help' for extra help...";
-    }
-
-    private String handleShowCommand(String command, String[] args) {
-
-        if (args[args.length - 1].equals("statistic")) {
-
-            String name = "";
-
-            if (args.length > 3) {
-                for (int i = 1; i < args.length - 1; i++) {
-                    name += (args[i] + " ");
-                }
-
-                name = name.substring(0, name.length() - 1);
-            } else {
-                name = args[1];
-            }
-
-            List<Integer> answer = getDepartmentStatsByName(name);
-
-            return "Assistants: " + answer.get(2) +
-                    ", assosiated professors: " + answer.get(1) +
-                    ", professors: " + answer.get(0);
-        } else {
-
-            String departmentName = command.substring(27);
-
-            if (command.contains("count of employee for")) {
-                return "" + getEmployeeCountByDepartmentName(departmentName);
-            } if (command.contains("the average salary for department")) {
-                return "The average salary of " + departmentName + " is " + getAverageSalaryForDepartmentByName(departmentName);
-            } else {
-                return "";
-            }
-        }
+        contractDao = new ContractDao();
     }
 
     /**
@@ -108,7 +32,8 @@ public class CommandHandlerImpl implements CommandHandler {
      * @param departmentName The name of the department
      * @return The name of the head of given department
      */
-    private String getHeadOfDepartmentByDepartmentName(String departmentName) {
+    @Override
+    public String getHeadOfDepartmentByDepartmentName(String departmentName) {
         return departmentDao.getDepartmentByName(departmentName).getHead();
     }
 
@@ -118,7 +43,8 @@ public class CommandHandlerImpl implements CommandHandler {
      * @param departmentName The name of the department
      * @return List of Integers where first element is amount of professors, second - assosiate professors, third - assistants
      */
-    private List<Integer> getDepartmentStatsByName(String departmentName) {
+    @Override
+    public List<Integer> getDepartmentStatsByName(String departmentName) {
 
         int professorCount = 0;
         int assosiateProfessorCount = 0;
@@ -163,7 +89,8 @@ public class CommandHandlerImpl implements CommandHandler {
      * @param departmentName The name of the department
      * @return Amount of employees
      */
-    private int getEmployeeCountByDepartmentName(String departmentName) {
+    @Override
+    public int getEmployeeCountByDepartmentName(String departmentName) {
 
         Department department = departmentDao.getDepartmentByName(departmentName);
 
@@ -187,7 +114,8 @@ public class CommandHandlerImpl implements CommandHandler {
      * @param departmentName The name of the department
      * @return Average salary of employees
      */
-    private double getAverageSalaryForDepartmentByName(String departmentName) {
+    @Override
+    public double getAverageSalaryForDepartmentByName(String departmentName) {
 
         long departmentId = departmentDao.getDepartmentByName(departmentName).getId();
         List<Contract> contracts = contractDao.getContractsByDepartmentId(departmentId);
@@ -207,7 +135,8 @@ public class CommandHandlerImpl implements CommandHandler {
      * @param template The part of name
      * @return List of names
      */
-    private List<String> getLectorsByNameTemplate(String template) {
+    @Override
+    public List<String> getLectorsByNameTemplate(String template) {
 
         List<String> names = new ArrayList<>();
 
