@@ -54,7 +54,7 @@ public class CommandHandlerImpl implements CommandHandler {
 
             case "Show": {
                 if (splitedCommand.length > 1) {
-                    return handleShowCommand(splitedCommand);
+                    return handleShowCommand(command, splitedCommand);
                 } else {
                     break;
                 }
@@ -67,7 +67,7 @@ public class CommandHandlerImpl implements CommandHandler {
         return "Unknown command!, please type 'help' for extra help...";
     }
 
-    private String handleShowCommand(String[] args) {
+    private String handleShowCommand(String command, String[] args) {
 
         if (args[args.length - 1].equals("statistic")) {
 
@@ -86,10 +86,19 @@ public class CommandHandlerImpl implements CommandHandler {
             List<Integer> answer = getDepartmentStatsByName(name);
 
             return "Assistants: " + answer.get(2) +
-                    " , assosiated professors: " + answer.get(1) +
+                    ", assosiated professors: " + answer.get(1) +
                     ", professors: " + answer.get(0);
         } else {
-            return "";
+
+            String departmentName = command.substring(27);
+
+            if (command.contains("count of employee for")) {
+                return "" + getEmployeeCountByDepartmentName(departmentName);
+            } if (command.contains("the average salary for department")) {
+                return "The average salary of " + departmentName + " is " + getAverageSalaryForDepartmentByName(departmentName);
+            } else {
+                return "";
+            }
         }
     }
 
@@ -156,8 +165,18 @@ public class CommandHandlerImpl implements CommandHandler {
      */
     private int getEmployeeCountByDepartmentName(String departmentName) {
 
-        long departmentId = departmentDao.getDepartmentByName(departmentName).getId();
+        Department department = departmentDao.getDepartmentByName(departmentName);
+
+        if (department == null) {
+            return -1;
+        }
+
+        long departmentId = department.getId();
         List<Contract> contracts = contractDao.getContractsByDepartmentId(departmentId);
+
+        if (contracts.size() == 0) {
+            return 0;
+        }
 
         return contracts.size();
     }
@@ -172,6 +191,10 @@ public class CommandHandlerImpl implements CommandHandler {
 
         long departmentId = departmentDao.getDepartmentByName(departmentName).getId();
         List<Contract> contracts = contractDao.getContractsByDepartmentId(departmentId);
+
+        if (contracts.size() == 0) {
+            return 0;
+        }
 
         int totalSalary = contracts.stream().mapToInt(Contract::getSalary).sum();
 
