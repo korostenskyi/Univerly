@@ -5,16 +5,16 @@ import com.korostenskyi.app.core.data.dao.DepartmentDao;
 import com.korostenskyi.app.core.data.dao.LectorDao;
 import com.korostenskyi.app.core.data.entity.Contract;
 import com.korostenskyi.app.core.data.entity.Degree;
+import com.korostenskyi.app.core.data.entity.Department;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommandHandlerImpl implements CommandHandler {
-
-    private String command;
 
     private ContractDao contractDao;
     private DepartmentDao departmentDao;
@@ -29,7 +29,68 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public String handleCommand(String command) {
-        return command;
+
+        String[] splitedCommand = command.split(" ");
+        String commandName = splitedCommand[0];
+
+        switch (commandName) {
+
+            case "help":
+                // TODO: Complete the 'help' command description
+                return "Read the docs!";
+
+            case "Global": {
+                if (splitedCommand.length > 1) {
+                    if (splitedCommand[1].equals("search") && splitedCommand[2].equals("by")) {
+                        return "[" + getLectorsByNameTemplate(splitedCommand[3]).stream().map(Object::toString)
+                                .collect(Collectors.joining(", ")) + "]";
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            case "Show": {
+                if (splitedCommand.length > 1) {
+                    return handleShowCommand(splitedCommand);
+                } else {
+                    break;
+                }
+            }
+
+            default:
+                break;
+        }
+
+        return "Unknown command!, please type 'help' for extra help...";
+    }
+
+    private String handleShowCommand(String[] args) {
+
+        if (args[args.length - 1].equals("statistic")) {
+
+            String name = "";
+
+            if (args.length > 3) {
+                for (int i = 1; i < args.length - 1; i++) {
+                    name += (args[i] + " ");
+                }
+
+                name = name.substring(0, name.length() - 1);
+            } else {
+                name = args[1];
+            }
+
+            List<Integer> answer = getDepartmentStatsByName(name);
+
+            return "Assistants: " + answer.get(2) +
+                    " , assosiated professors: " + answer.get(1) +
+                    ", professors: " + answer.get(0);
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -54,7 +115,15 @@ public class CommandHandlerImpl implements CommandHandler {
         int assosiateProfessorCount = 0;
         int assistantCount = 0;
 
-        long departmentId = departmentDao.getDepartmentByName(departmentName).getId();
+        Department department = departmentDao.getDepartmentByName(departmentName);
+        long departmentId;
+
+        if (department != null) {
+            departmentId = department.getId();
+        } else {
+            return Arrays.asList(-1, -1, -1);
+        }
+
         List<Contract> contracts = contractDao.getContractsByDepartmentId(departmentId);
 
         for (Contract element : contracts) {

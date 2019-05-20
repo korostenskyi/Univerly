@@ -2,13 +2,11 @@ package com.korostenskyi.app.core.data.dao;
 
 import com.korostenskyi.app.config.FactoryUtil;
 import com.korostenskyi.app.core.data.entity.Department;
+import com.korostenskyi.app.core.exception.MissingDataException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.Arrays;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,8 +66,14 @@ public class DepartmentDao implements BaseDao<Department> {
         Query<Department> query = getSession().createNativeQuery("select * from Department where department_name = :departmentName", Department.class);
         query.setParameter("departmentName", name);
 
-        List<Department> departmentList = query.list();
+        Department department = null;
 
-        return departmentList.get(0);
+        try {
+            department = query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new MissingDataException(e.getMessage());
+        } finally {
+            return department;
+        }
     }
 }
